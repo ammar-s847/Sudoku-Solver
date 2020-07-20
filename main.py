@@ -33,10 +33,11 @@ def boardInit(fileName):
         count += 1
 
 def drawBoard():
-    print(board)
+    for i in board: print(i, end="\n")
 
 # Init Functions
 boardInit(os.path.dirname(os.path.realpath(__file__)) + '/board.txt')
+drawBoard()
 
 # PyGame Loop
 while run:
