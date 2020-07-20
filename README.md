@@ -7,13 +7,13 @@ Sample boards used from <a href="https://github.com/dimitri/sudoku">https://gith
 Insert your unsolved sudoku board here, where '0' represents unassigned/empty values. Example: <br>
 
 <code>
-000000907
-000420180
-000705026
-100904000
-050000040
-000507009
-920108000
-034059000
+000000907 <br>
+000420180 <br>
+000705026 <br>
+100904000 <br>
+050000040 <br>
+000507009 <br>
+920108000 <br>
+034059000 <br>
 507000000
 </code>
