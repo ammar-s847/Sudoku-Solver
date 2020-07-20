@@ -10,9 +10,11 @@ CLOCK = pygame.time.Clock()
 SCREEN.fill((255, 255, 255))
 pygame.display.set_caption("Sudoku Solver")
 
-# Colours
+# Colours and Fonts
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+
+FONT = pygame.font.SysFont("Arial", 32)
 
 # Variables
 run = True
@@ -32,12 +34,20 @@ def boardInit(fileName):
                 board[count].append(str(i))
         count += 1
 
-def drawBoard():
+def printBoard():
     for i in board: print(i, end="\n")
+
+def drawBoard():
+    for y in range(len(board)):
+        for x in range(len(board[0])):
+            text = FONT.render(board[y][x], True, BLACK)
+            SCREEN.blit(text, (blockSize * x + 17, blockSize * y + 8))
+            rect = pygame.Rect(x * blockSize, y * blockSize, blockSize, blockSize)
+            pygame.draw.rect(SCREEN, BLACK, rect, 1)
 
 # Init Functions
 boardInit(os.path.dirname(os.path.realpath(__file__)) + '/board.txt')
-drawBoard()
+printBoard()
 
 # PyGame Loop
 while run:
@@ -50,7 +60,7 @@ while run:
                     algorithm = True
                     print("Algorithm Started!")
 
-
+    drawBoard()
 
     pygame.display.update()
 
