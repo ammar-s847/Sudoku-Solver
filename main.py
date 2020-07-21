@@ -1,6 +1,5 @@
 import pygame
 import sys
-import math
 import os
 
 pygame.init()
@@ -96,7 +95,6 @@ def main():
             board[empty[1]][empty[0]] = '0'
 
     return False
-
 
 # Init Functions
 boardInit(os.path.dirname(os.path.realpath(__file__)) + '/board.txt')
