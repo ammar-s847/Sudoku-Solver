@@ -4,6 +4,7 @@ import math
 import os
 
 pygame.init()
+pygame.font.init()
 winLength = 450
 SCREEN = pygame.display.set_mode((winLength, winLength))
 CLOCK = pygame.time.Clock()
@@ -14,14 +15,13 @@ pygame.display.set_caption("Sudoku Solver")
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-FONT = pygame.font.SysFont("Arial", 32)
+FONT = pygame.font.SysFont("calibri", 32)
 
 # Variables
 run = True
 algorithm = False
 board = []
 blockSize = winLength // 9
-
 
 # Functions
 def boardInit(fileName):
@@ -39,11 +39,41 @@ def printBoard():
 
 def drawBoard():
     for y in range(len(board)):
-        for x in range(len(board[0])):
-            text = FONT.render(board[y][x], True, BLACK)
-            SCREEN.blit(text, (blockSize * x + 17, blockSize * y + 8))
+        for x in range(len(board[y])):
+            textContent = board[y][x]
+            if textContent == '0':
+                textContent = ''
+            text = FONT.render(textContent, False, BLACK)
+            SCREEN.blit(text, (blockSize * x + 17, blockSize * y + 10))
             rect = pygame.Rect(x * blockSize, y * blockSize, blockSize, blockSize)
             pygame.draw.rect(SCREEN, BLACK, rect, 1)
+
+def check(value, x, y):
+    for c in range(len(board[y])): # Check Row
+        if board[y][c] == str(value) and c != x:
+            return False
+    
+    for c in range(len(board)): # Check Column
+        if board[c][x] == str(value) and c != y:
+            return False
+
+    # Check Sub-section (3*3 area)
+    sectionX = x // 3
+    sectionY = y // 3
+    for v in range(sectionY * 3, sectionY * 3 + 3):
+        for w in range(sectionX * 3, sectionX * 3 + 3):
+            if board[v][w] == str(value) and [w, v] != [x, y]:
+                return False
+
+    return True
+
+def main():
+    empty = []
+    for y in range(len(board)):
+        for x in range(len(board[y])):
+            if board[y][x] == '0' or board[y][x] == 0:
+                empty.append([x, y])
+    print(check(7, 2, 8))
 
 # Init Functions
 boardInit(os.path.dirname(os.path.realpath(__file__)) + '/board.txt')
@@ -59,6 +89,7 @@ while run:
                 if not algorithm:
                     algorithm = True
                     print("Algorithm Started!")
+                    main()
 
     drawBoard()
 
