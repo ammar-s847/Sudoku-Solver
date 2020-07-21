@@ -35,7 +35,11 @@ def boardInit(fileName):
         count += 1
 
 def printBoard():
-    for i in board: print(i, end="\n")
+    for i in board:
+        string = ""
+        for j in i:
+            string = string + j
+        print(string)
 
 def drawBoard():
     for y in range(len(board)):
@@ -72,11 +76,31 @@ def main():
     for y in range(len(board)):
         for x in range(len(board[y])):
             if board[y][x] == '0' or board[y][x] == 0:
-                empty.append([x, y])
-    print(check(7, 2, 8))
+                empty = [x, y]
+                break
+        if len(empty) > 0:
+            break
+    
+    if len(empty) == 0:
+        print("Final Board:")
+        printBoard()
+        return True
+    
+    for b in range(1, 10): # all integers from 1-9
+        if check(b, empty[0], empty[1]):
+            board[empty[1]][empty[0]] = str(b)
+
+            if main(): # Recursion
+                return True
+
+            board[empty[1]][empty[0]] = '0'
+
+    return False
+
 
 # Init Functions
 boardInit(os.path.dirname(os.path.realpath(__file__)) + '/board.txt')
+print("Current Board: ")
 printBoard()
 
 # PyGame Loop
